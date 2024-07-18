@@ -1,0 +1,10 @@
+aws:
+  region: us-west-1
+  s3_bucket: your-s3-bucket
+  dynamodb_table: YourDynamoDBTable
+  redshift_cluster_identifier: example-cluster
+  athena_results_bucket: your-query-results-bucket
+  kinesis_stream: example-stream
+  cloudwatch_alarm_name: example-alarm
+  cloudwatch_alarm_actions: arn:aws:sns:us-west-1:123456789012:ExampleTopic
+  ec2_instance_id: i-1234567890abcdef0
