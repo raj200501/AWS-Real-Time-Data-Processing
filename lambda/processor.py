@@ -4,6 +4,7 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 s3 = boto3.client('s3')
+dynamodb = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
     for record in event['Records']:
@@ -15,6 +16,17 @@ def lambda_handler(event, context):
             Bucket='your-s3-bucket',
             Key=f"processed/{payload['sensor_id']}_{payload['timestamp']}.json",
             Body=json.dumps(payload)
+        )
+
+        # Save the processed data to DynamoDB
+        dynamodb.put_item(
+            TableName='YourDynamoDBTable',
+            Item={
+                'sensor_id': {'S': str(payload['sensor_id'])},
+                'timestamp': {'N': str(payload['timestamp'])},
+                'temperature': {'N': str(payload['temperature'])},
+                'humidity': {'N': str(payload['humidity'])}
+            }
         )
 
     return {
