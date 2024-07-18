@@ -1,0 +1,93 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS Real-Time Data Processing Infrastructure
+
+Resources:
+  ExampleBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: 'your-s3-bucket'
+
+  ExampleDynamoDBTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: 'YourDynamoDBTable'
+      AttributeDefinitions:
+        - AttributeName: 'sensor_id'
+          AttributeType: 'S'
+        - AttributeName: 'timestamp'
+          AttributeType: 'N'
+      KeySchema:
+        - AttributeName: 'sensor_id'
+          KeyType: 'HASH'
+        - AttributeName: 'timestamp'
+          KeyType: 'RANGE'
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  ExampleRedshiftCluster:
+    Type: 'AWS::Redshift::Cluster'
+    Properties:
+      ClusterIdentifier: 'example-cluster'
+      DBName: 'exampledb'
+      MasterUsername: 'admin'
+      MasterUserPassword: 'Password123!'
+      NodeType: 'dc2.large'
+      ClusterType: 'single-node'
+
+  ExampleAthenaResultsBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: 'your-query-results-bucket'
+
+  ExampleGlueServiceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: 'AWSGlueServiceRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: glue.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'AWSGlueServicePolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:*'
+                  - 'glue:*'
+                Resource: '*'
+
+  ExampleKinesisStream:
+    Type: 'AWS::Kinesis::Stream'
+    Properties:
+      Name: 'example-stream'
+      ShardCount: 1
+
+  ExampleLambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: 'LambdaExecutionRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'LambdaExecutionPolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:*'
+                  - 's3:*'
+                  - 'dynamodb:*'
+                  - 'kinesis:*'
+                Resource: '*'
