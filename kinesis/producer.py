@@ -28,6 +28,12 @@ def generate_random_data():
         'timestamp': int(time.time())
     }
 
+def bulk_send_data(stream_name, partition_key, num_records):
+    for _ in range(num_records):
+        data = generate_random_data()
+        send_data(stream_name, data, partition_key)
+        time.sleep(1)
+
 if __name__ == "__main__":
     stream_name = 'example-stream'
     partition_key = 'partitionkey'
@@ -36,3 +42,5 @@ if __name__ == "__main__":
         data = generate_random_data()
         send_data(stream_name, data, partition_key)
         time.sleep(1)
+        # Uncomment to send bulk data
+        # bulk_send_data(stream_name, partition_key, 10)
