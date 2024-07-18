@@ -23,7 +23,15 @@ def get_records(stream_name, shard_id, iterator_type='TRIM_HORIZON'):
         shard_iterator = response['NextShardIterator']
         time.sleep(1)
 
+def list_shards(stream_name):
+    client = boto3.client('kinesis')
+    response = client.describe_stream(StreamName=stream_name)
+    shards = response['StreamDescription']['Shards']
+    shard_ids = [shard['ShardId'] for shard in shards]
+    return shard_ids
+
 if __name__ == "__main__":
     stream_name = 'example-stream'
-    shard_id = 'shardId-000000000000'
-    get_records(stream_name, shard_id)
+    shard_ids = list_shards(stream_name)
+    for shard_id in shard_ids:
+        get_records(stream_name, shard_id)
