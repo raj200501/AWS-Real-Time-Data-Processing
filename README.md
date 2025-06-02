@@ -5,7 +5,7 @@ Welcome to the **AWS Real-Time Data Processing and Analytics Platform**, an adva
 ## 🌟 Project Overview
 
 The **AWS Real-Time Data Processing and Analytics Platform** is an end-to-end system architected to collect, process, analyze, and visualize streaming data from diverse sources in real-time. This platform leverages the synergy of multiple AWS services, ensuring seamless data flow and processing with exceptional performance and scalability.
-
+ 
 ### Key Features
  
 - **Scalable Architecture**: Architected to scale effortlessly, accommodating varying data volumes and processing loads, from startup applications to enterprise-level solutions.
