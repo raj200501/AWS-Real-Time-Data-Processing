@@ -1,0 +1,5 @@
+boto3
+pytest
+pyyaml
+--find-links ./vendor
+./vendor/pyyaml_stub ; python_version < '0'
