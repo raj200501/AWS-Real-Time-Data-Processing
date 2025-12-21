@@ -103,3 +103,17 @@ Have questions or need assistance? Reach out to me at [rajskashikar@gmail.com](m
 ---
 
 Developed by [Raj Kashikar](https://github.com/raj200501)
+
+## ✅ Verified Quickstart
+These steps were executed in a clean environment to validate the repository end-to-end without requiring live AWS credentials:
+
+1. Create and activate a Python environment (e.g., `python -m venv .venv && source .venv/bin/activate`).
+2. Install dependencies: `pip install -r requirements.txt`.
+3. Run the local smoke suite with in-memory AWS doubles: `./scripts/smoke_test.sh`.
+
+The helpers in `sitecustomize.py` automatically provide local stand-ins for AWS services via `USE_FAKE_AWS=1` (default). Set `USE_FAKE_AWS=0` if you want to use real AWS credentials/endpoints instead.
+
+## Troubleshooting
+- **`NoCredentialsError` or AWS connection failures**: ensure `USE_FAKE_AWS` remains `1` when running locally without AWS credentials. The `sitecustomize.py` shim will then provide in-memory clients from `fake_aws.py`.
+- **`ModuleNotFoundError: sitecustomize`**: run commands from the repository root or ensure the project root is on `PYTHONPATH` so Python can discover `sitecustomize.py`.
+- **Need to point at real AWS**: export `USE_FAKE_AWS=0` before running scripts or tests to bypass the local fakes and use standard boto3 behavior.
