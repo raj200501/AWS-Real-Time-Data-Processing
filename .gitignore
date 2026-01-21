@@ -117,3 +117,6 @@ target/
 # System files
 Thumbs.db
 Desktop.ini
+
+# Local agent notes
+codex_notes/

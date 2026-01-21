@@ -117,3 +117,30 @@ The helpers in `sitecustomize.py` automatically provide local stand-ins for AWS 
 - **`NoCredentialsError` or AWS connection failures**: ensure `USE_FAKE_AWS` remains `1` when running locally without AWS credentials. The `sitecustomize.py` shim will then provide in-memory clients from `fake_aws.py`.
 - **`ModuleNotFoundError: sitecustomize`**: run commands from the repository root or ensure the project root is on `PYTHONPATH` so Python can discover `sitecustomize.py`.
 - **Need to point at real AWS**: export `USE_FAKE_AWS=0` before running scripts or tests to bypass the local fakes and use standard boto3 behavior.
+
+## ⚡ 60-second Quickstart
+1. Create and activate a virtual environment: `python -m venv .venv && source .venv/bin/activate`.
+2. Install dependencies: `pip install -r requirements.txt`.
+3. Run the local demo: `./scripts/demo.sh`.
+
+## 🎬 Demo (`scripts/demo.sh`)
+Run the one-command recruiter demo that simulates an end-to-end pipeline with local AWS fakes:
+```
+./scripts/demo.sh
+```
+The demo prints a PASS/FAIL summary and does not require AWS credentials.
+
+## ✅ Verification (`scripts/verify.sh`)
+Run the full verification suite (lint, unit tests, smoke tests, demo, and compile checks):
+```
+./scripts/verify.sh
+```
+
+## ✨ Features (Verified Locally)
+- **Local real-time pipeline simulation** using Kinesis → Lambda → DynamoDB/S3 (via in-memory fakes).
+- **Analytics report generation** with summaries and anomaly detection.
+- **Structured logging** with optional JSON output (`RTAP_LOG_FORMAT=json`).
+- **Metrics and timing** for pipeline stages (enabled by default).
+- **Trace recorder** for JSONL event traces (`RTAP_TRACE_PATH=...`).
+- **Plugin system** for extensible payload transformations.
+
